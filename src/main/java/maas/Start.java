@@ -8,10 +8,14 @@ import java.util.Vector;
 public class Start {
 
 	private String [] list_of_books = {"Book1","Book2","Book3","Book4","Book5","Book6","Book7","Book8"};
+	private int[] prices = {1000,2000,3000,2500};
+	private int[] paperbackcopies = {10,10};
+	private int[] ebookcopies = {1000,2000,3000,4000};
+	private boolean ispaperback = true;
 	private int no_of_SellerAgents = 3;
 	private int no_of_books_total = 8;
 	private int type_book = 2;
-	private int no_of_BuyerAgents = 2;
+	private int no_of_BuyerAgents = 20;
 	public String[] getList_of_books() {
 		return list_of_books;
 	}
@@ -65,11 +69,14 @@ public class Start {
 
 		}
 		//Adding Seller Agents
-			agents.add("Seller1:maas.tutorials.BookSellerAgent(Book1_10_70_paperback,Book5_10_80_paperback,Book7_1000_70_ebook,Book2_1000_80_ebook)");
-			agents.add("Seller2:maas.tutorials.BookSellerAgent(Book2_10_70_paperback,Book3_10_80_aperback,Book6_1000_70_ebook,Book8_1000_80_ebbok)");
-			agents.add("Seller3:maas.tutorials.BookSellerAgent(Book4_10_70_paperback,Book5_10_80_paperback,Book1_1000_60_ebook,Book8_1500_60_ebook)");
+		for(int i=0;i<object1.getNo_of_SellerAgents();i++) {
+//			agents.add("Seller"+i+":maas.tutorials.BookSellerAgent"+"("+object1.list_of_books[rand.nextInt(4)]+"_10_70"+","+object1.list_of_books[rand.nextInt(4)]+"_20_70"+")");
+			agents.add("Seller"+i+":maas.tutorials.BookSellerAgent"+"("+object1.list_of_books[rand.nextInt(6)]+"_"+object1.paperbackcopies[rand.nextInt(2)]+"_"+object1.prices[rand.nextInt(4)]+"_true"+","
+																+object1.list_of_books[rand.nextInt(6)]+"_"+object1.paperbackcopies[rand.nextInt(2)]+"_"+object1.prices[rand.nextInt(4)]+"_true"+","
+																+object1.list_of_books[rand.nextInt(8)]+"_"+object1.ebookcopies[rand.nextInt(4)]+"_"+object1.prices[rand.nextInt(4)]+"_false"+","
+																+object1.list_of_books[rand.nextInt(8)]+"_"+object1.ebookcopies[rand.nextInt(2)]+"_"+object1.prices[rand.nextInt(4)]+"_false"+")");
 		
-
+	}
 		List<String> cmd = new Vector<>();
 		cmd.add("-agents");
 		StringBuilder sb = new StringBuilder();

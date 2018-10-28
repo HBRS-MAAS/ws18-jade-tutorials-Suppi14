@@ -1,6 +1,10 @@
 package maas.tutorials;
 import jade.core.Agent;
 import jade.core.behaviours.*;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
@@ -10,17 +14,19 @@ import java.util.*;
 @SuppressWarnings("serial")
 public class BookSellerAgent extends Agent{
 	private Hashtable<String, Integer> catalogue;
-	ArrayList<Hashtable<String, String>> final_book_list = new ArrayList<Hashtable<String, String>>();
+	private ArrayList final_book_list = new ArrayList();
+	
 
 	//Agent initializations
 	protected void setup() {
-		final_book_list = new ArrayList<Hashtable<String, String>>();
+//		final_book_list = new ArrayList();
 		System.out.println("Hello! Seller Agents"+getAID().getName()+" is ready");
 		Object[] args = getArguments();
 		if(args!=null && args.length>0) {
 			for(int i=0;i<args.length; i++) {
 				String book_information = (String)args[i];
 				String[] book_info_list = book_information.split("_");
+				
 				Hashtable<String, String> info_books = new Hashtable<String, String>();
 				info_books.put("book_title", book_info_list[0]);
 				info_books.put("quantity",book_info_list[1]);
@@ -31,6 +37,20 @@ public class BookSellerAgent extends Agent{
 			System.out.println("print book info"+final_book_list);
 		}
 
+			// Register the book-selling service in the yellow pages
+			DFAgentDescription dfd = new DFAgentDescription();
+			dfd.setName(getAID());
+			ServiceDescription sd = new ServiceDescription();
+			sd.setType("book-selling");
+			sd.setName("JADE-book-trading");
+			dfd.addServices(sd);
+			try {
+			DFService.register(this, dfd);
+			}
+			catch (FIPAException fe) {
+			fe.printStackTrace();
+			}
+			
 
 		//Add the behaviour serving requests for offer from buyer agents
 		addBehaviour(new OfferRequestsServer());
@@ -41,7 +61,13 @@ public class BookSellerAgent extends Agent{
 	
 	//Put agent clean up operations here
 	protected void takeDown() {
-
+	// Deregister from the yellow pages
+		try {
+		DFService.deregister(this);
+		}
+		catch (FIPAException fe) {
+		fe.printStackTrace();
+		}
 		//Printout a dismissal message
 		System.out.println("Seller agent"+getAID().getName()+"terminating.");
 	}

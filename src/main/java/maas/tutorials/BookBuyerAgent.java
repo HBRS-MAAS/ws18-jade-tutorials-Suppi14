@@ -22,6 +22,7 @@ import jade.lang.acl.MessageTemplate;
 public class BookBuyerAgent extends Agent{
 	//title for the book
 	private String titleofbooks; 
+	
 
 	//no of seller agents
 	private AID[] sellerAgents = {new AID("seller1", AID.ISLOCALNAME),
@@ -38,9 +39,10 @@ public class BookBuyerAgent extends Agent{
 			System.out.println("Request to buy" +titleofbooks);
 			System.out.println("Hello! Buyer-agent "+getAID().getName()+" wants to buy"+titleofbooks);
 			addBehaviour(new RequestPerformer(titleofbooks));
+		//	Add a TickerBehaviour that schedules a request to seller agents every minute
 			addBehaviour(new TickerBehaviour(this, 60000) {
 				protected void onTick() {
-
+					// Update the list of seller agents
 					DFAgentDescription template = new DFAgentDescription();
 					ServiceDescription sd = new ServiceDescription();
 					sd.setType("book-selling");
@@ -65,7 +67,7 @@ public class BookBuyerAgent extends Agent{
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		//		addBehaviour(new TickerBehaviour(this,60000) {
 		//			protected void onTick() {
@@ -191,7 +193,7 @@ public class BookBuyerAgent extends Agent{
 			if (step == 2 && bestSeller == null) {
 				System.out.println("Attempt failed: "+titleofbooks+" not available for sale");
 			}
-			System.out.println("return back best seller");
+//			System.out.println("return back best seller");
 			return ((step==2 && bestSeller == null || step == 4 && max_no_of_books ==3));
 			
 		}
