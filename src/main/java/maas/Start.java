@@ -3,11 +3,9 @@ import java.util.*;
 import java.util.List;
 import java.util.Vector;
 
-
-
 public class Start {
 
-	private String [] list_of_books = {"Book1","Book2","Book3","Book4","Book5","Book6","Book7","Book8"};
+	private String [] list_of_books = {"Murder on the Orient Express","Kite Runner","The Alchemist","If tomorrow comes"};
 	private int[] prices = {1000,2000,3000,2500};
 	private int[] paperbackcopies = {10,10};
 	private int[] ebookcopies = {1000,2000,3000,4000};
@@ -55,28 +53,37 @@ public class Start {
 	public void setType_book(int type_book) {
 		this.type_book = type_book;
 	}
-
+	
+	
 	public static void main(String[] args) {
+		
 		Random rand = new Random();
-
 		Start object1 = new Start();
 
 		List<String> agents = new Vector<>();
 		
 		//Adding buyer agents
-		for(int i=0; i < object1.getNo_of_BuyerAgents(); i++) {
-			agents.add("Buyer"+i+":maas.tutorials.BookBuyerAgent"+"("+object1.list_of_books[rand.nextInt(4)]+","+object1.list_of_books[rand.nextInt(4)]+","+object1.list_of_books[rand.nextInt(4)]+ ")");
+//		for(int i=0; i < object1.getNo_of_BuyerAgents(); i++) {
+//			agents.add("Buyer"+i+":maas.tutorials.BookBuyerAgent"+"("+object1.list_of_books[rand.nextInt(4)]+","+object1.list_of_books[rand.nextInt(4)]+","+object1.list_of_books[rand.nextInt(4)]+ ")");
+//
+//		}
+		for (int i = 0; i < object1.getNo_of_BuyerAgents(); ++i){
+            StringBuilder sb = new StringBuilder();
+            sb.append("Buyer");
+            sb.append(Integer.toString(i));
+            sb.append(":maas.tutorials.BookBuyerAgent");
+            agents.add(sb.toString());
+        }
 
-		}
-		//Adding Seller Agents
-		for(int i=0;i<object1.getNo_of_SellerAgents();i++) {
-//			agents.add("Seller"+i+":maas.tutorials.BookSellerAgent"+"("+object1.list_of_books[rand.nextInt(4)]+"_10_70"+","+object1.list_of_books[rand.nextInt(4)]+"_20_70"+")");
-			agents.add("Seller"+i+":maas.tutorials.BookSellerAgent"+"("+object1.list_of_books[rand.nextInt(6)]+"_"+object1.paperbackcopies[rand.nextInt(2)]+"_"+object1.prices[rand.nextInt(4)]+"_true"+","
-																+object1.list_of_books[rand.nextInt(6)]+"_"+object1.paperbackcopies[rand.nextInt(2)]+"_"+object1.prices[rand.nextInt(4)]+"_true"+","
-																+object1.list_of_books[rand.nextInt(8)]+"_"+object1.ebookcopies[rand.nextInt(4)]+"_"+object1.prices[rand.nextInt(4)]+"_false"+","
-																+object1.list_of_books[rand.nextInt(8)]+"_"+object1.ebookcopies[rand.nextInt(2)]+"_"+object1.prices[rand.nextInt(4)]+"_false"+")");
-		
-	}
+	
+		for (int i = 0; i < object1.getNo_of_SellerAgents(); ++i){
+            StringBuilder sb = new StringBuilder();
+            sb.append("Seller");
+            sb.append(Integer.toString(i));
+            sb.append(":maas.tutorials.BookSellerAgent");
+            agents.add(sb.toString());
+        }
+
 		List<String> cmd = new Vector<>();
 		cmd.add("-agents");
 		StringBuilder sb = new StringBuilder();
